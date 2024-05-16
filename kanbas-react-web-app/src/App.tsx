@@ -1,10 +1,20 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import Labs from "./Labs";
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 function App() {
   return (
+
     <div className="App">
+      <HashRouter>
+        <div>
+          <Routes>
+            <Route path="/" element={<Navigate to="Labs" />} />
+            <Route path="/Labs/*" element={<Labs />} />
+          </Routes>
+        </div>
+      </HashRouter>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
