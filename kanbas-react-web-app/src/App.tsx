@@ -10,6 +10,7 @@ function App() {
     <div className="App">
       <HashRouter>
         <div>
+        <a href='https://github.com/zhilinzhai/kanbas-react-web-app/tree/a1'>Zhai Zhilin GitHub </a>
           <Routes>
             <Route path="/" element={<Navigate to="Labs" />} />
             <Route path="/Labs/*" element={<Labs />} />
