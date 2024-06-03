@@ -7,9 +7,9 @@ import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 function App() {
   return (
 
-    <div className="App">
+    <div className="App" >
       <HashRouter>
-        <div>
+        <div className="h-100">
         <a href='https://github.com/zhilinzhai/kanbas-react-web-app/tree/a1'>Zhai Zhilin GitHub </a>
           <Routes>
             <Route path="/" element={<Navigate to="Labs" />} />

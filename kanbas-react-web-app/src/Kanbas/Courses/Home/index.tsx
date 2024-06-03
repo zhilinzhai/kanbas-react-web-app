@@ -2,27 +2,21 @@ import Modules from "../Modules";
 import CourseStatus from "./Status";
 export default function Home() {
     return (
-        <table id="wd-home">
-            <tr>
-                <td>
-                    <button>Collapse All</button>
-                    <button>View Progress</button>
-                    <select>
-                            <option value="publish">Publish</option>
-                            <option value="publishAll">Publish All</option>
-                            <option value="unpublishAll">Unpublish All</option>
-                        </select>
-                    <button>+ Module</button>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top">
-                    <Modules />
-                </td>
-                <td valign="top">
-                    <CourseStatus />
-                </td>
-            </tr>
-        </table>
+        <div id="wd-home" className="d-flex">
+            <div className="flex-fill me-5">
+                <button>Collapse All</button>
+                <button>View Progress</button>
+                <select>
+                    <option value="publish">Publish</option>
+                    <option value="publishAll">Publish All</option>
+                    <option value="unpublishAll">Unpublish All</option>
+                </select>
+                <button>+ Module</button>
+                <Modules />
+            </div>
+            <div className="d-none d-xl-block">
+                <CourseStatus />
+            </div>
+        </div>
     );
 }
