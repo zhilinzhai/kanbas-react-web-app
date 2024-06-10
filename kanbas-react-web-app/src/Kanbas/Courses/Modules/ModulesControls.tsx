@@ -29,7 +29,7 @@ export default function ModulesControls() {
           </li>
           <li>
             <a id="wd-unpublish-all-modules-and-items" className="dropdown-item" href="#">
-              <GreenCheckmark />
+              < GreenCheckmark/>
               Unpublish all modules and items
             </a>
           </li>
@@ -41,10 +41,10 @@ export default function ModulesControls() {
           </li>
         </ul>
       </div>
-      <button id="wd-view-progress" className="btn btn-lg btn-info me-1 float-end">
+      <button id="wd-view-progress" className="btn btn-lg btn-light-gray me-1 float-end">
         View Progress
       </button>
-      <button id="wd-collapse-all" className="btn btn-lg btn-warning me-1 float-end">
+      <button id="wd-collapse-all" className="btn btn-lg btn-light-gray me-1 float-end">
         Collapse All
       </button>
     </div>

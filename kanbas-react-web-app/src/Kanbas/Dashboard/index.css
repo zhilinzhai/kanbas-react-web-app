@@ -1,9 +1,9 @@
 .card {
-    height: 250px; /* Adjust the height as needed */
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
+  width: 100%;
+  max-width: 300px;
+  height: 100%;
+  margin: auto;
+}
   
   .card-img-top {
     height: 100px; /* Adjust the image height as needed */

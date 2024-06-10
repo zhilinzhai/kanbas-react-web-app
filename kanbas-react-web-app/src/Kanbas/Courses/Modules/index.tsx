@@ -2,6 +2,9 @@ import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import { BsGripVertical } from "react-icons/bs";
 import {BsPlus} from "react-icons/bs";
+import LessonControlPlus from "./LessonControlPlus";
+
+
 
 export default function Modules() {
   return (
@@ -14,8 +17,7 @@ export default function Modules() {
             <div className="wd-title p-3 ps-2 bg-secondary">
             <BsGripVertical className="me-2 fs-3" />
               Week 1
-              <LessonControlButtons />
-              <BsPlus className="me-2 fs-3" />
+              <LessonControlPlus />
             </div>
             <ul className="wd-lessons list-group rounded-0">
               <li className="wd-lesson list-group-item p-3 ps-1">

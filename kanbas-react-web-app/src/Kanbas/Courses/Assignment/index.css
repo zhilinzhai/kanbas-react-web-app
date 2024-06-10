@@ -9,9 +9,28 @@ body * {  font-family: Arial, Helvetica, sans-serif;  }
   .bg-secondary {
     background-color: #f8f9fa !important;   
   }
+  .bg-third {
+    background-color: #f0f0f0!important;   
+  }
+
   .border-gray {
-    border: 1px solid gray;
+    border: 1px solid rgb(243, 240, 240);
   }
   .bg-assignments {
     background-color: #f8f9fa !important;
+  }
+  .elliptical-button {
+    background-color: #6c757d; 
+    color: white; 
+    padding: 0.5rem 1rem; /* 内边距 */
+    border-radius: 50px; /* 圆角，创建椭圆效果 */
+    display: inline-block; /* 显示为内联块 */
+    font-size: 1rem; /* 字体大小 */
+    text-align: center; /* 文字居中 */
+  }
+  .text-red {
+    color: red;
+  }
+  .text-black {
+    color: black;
   }
