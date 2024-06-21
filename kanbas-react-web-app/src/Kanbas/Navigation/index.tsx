@@ -2,10 +2,20 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
+import { Link, useLocation } from "react-router-dom";
 
-import { useLocation } from "react-router-dom"
+// import { useLocation } from "react-router-dom"
 
-export default function KanbasNavigation() {
+ export default function KanbasNavigation() {
+//   const { pathname } = useLocation();
+//   const links = [
+//     { label: "Dashboard", path: "/Kanbas/Dashboard", icon: AiOutlineDashboard },
+//     { label: "Courses",   path: "/Kanbas/Dashboard", icon: LiaBookSolid },
+//     { label: "Calendar",  path: "/Kanbas/Calendar",  icon: IoCalendarOutline },
+//     { label: "Inbox",     path: "/Kanbas/Inbox",     icon: FaInbox },
+//     { label: "Labs",      path: "/Labs",             icon: LiaCogSolid },
+//   ];
+
   //       {/* <li><a id="wd-neu-link"  href="https://www.northeastern.edu/">Northeastern</a></li> */}
   //       {/* <li><a id="wd-account-link" href="#/Kanbas/Account">Account</a></li> */}
   //       {/* <li><a id="wd-dashboard-link" href="#/Kanbas/Dashboard">Dashboard</a></li> */}
