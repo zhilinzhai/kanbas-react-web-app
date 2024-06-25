@@ -3,6 +3,7 @@ import KanbasNavigation from "./Navigation";
 import Courses from "./Courses";
 import { Routes, Route, Navigate } from "react-router";
 import "./styles.css";
+import AssignmentEditor from "./Courses/Assignment/Editor";
 export default function Kanbas() {
     return (
         <div id="wd-kanbas" className="h-100">
@@ -20,6 +21,8 @@ export default function Kanbas() {
                         <Route path="Account" element={<h1>Account</h1>} />
                         <Route path="Calendar" element={<h1>Calendar</h1>} />
                         <Route path="Inbox" element={<h1>Inbox</h1>} />
+                        <Route path="Courses/:cid/Assignments/:aid" element={<AssignmentEditor />} />
+
                     </Routes>
                 </div>
             </div>
