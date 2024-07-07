@@ -217,7 +217,6 @@ import { assign } from 'lodash';
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const assignments = db.assignments.filter((assignment) => assignment.course === cid && assignment._id === aid);
-  console.log("assignments", assignments);
 
   return (
     <div className="container mt-4">
