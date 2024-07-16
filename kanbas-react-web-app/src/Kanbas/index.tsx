@@ -6,6 +6,10 @@ import "./styles.css";
 import AssignmentEditor from "./Courses/Assignment/Editor";
 import * as db from "./Database";
 import { useState } from "react";
+import store from "./store";
+import { Provider } from "react-redux";
+import Assignments from "./Courses/Assignment";
+
 
 export default function Kanbas() {
     const [courses, setCourses] = useState<any[]>(db.courses);
@@ -30,36 +34,38 @@ export default function Kanbas() {
             })
         );
     };
-
     return (
-        <div id="wd-kanbas" className="h-100">
-            <div className="d-flex h-100">
-                <div className="d-none d-md-block bg-black">
-                    <KanbasNavigation />
-                </div>
+        <Provider store={store}>
+            <div id="wd-kanbas" className="h-100">
+                <div className="d-flex h-100">
+                    <div className="d-none d-md-block bg-black">
+                        <KanbasNavigation />
+                    </div>
 
-                <div className="flex-fill p-4">
-                    <Routes>
-                        <Route path="/" element={<Navigate to="Dashboard" />} />
-                        <Route path="Dashboard" element={
-                            <Dashboard
-                                courses={courses}
-                                course={course}
-                                setCourse={setCourse}
-                                addNewCourse={addNewCourse}
-                                deleteCourse={deleteCourse}
-                                updateCourse={updateCourse} />
-                        } />
-                        <Route path="Courses/:cid/*" element={<Courses courses={courses} />} />
-                        <Route path="/" element={<Navigate to="Dashboard" />} />
-                        <Route path="Account" element={<h1>Account</h1>} />
-                        <Route path="Calendar" element={<h1>Calendar</h1>} />
-                        <Route path="Inbox" element={<h1>Inbox</h1>} />
-                        <Route path="Courses/:cid/Assignments/:aid" element={<AssignmentEditor />} />
+                    <div className="flex-fill p-4">
+                        <Routes>
+                            <Route path="/" element={<Navigate to="Dashboard" />} />
+                            <Route path="Dashboard" element={
+                                <Dashboard
+                                    courses={courses}
+                                    course={course}
+                                    setCourse={setCourse}
+                                    addNewCourse={addNewCourse}
+                                    deleteCourse={deleteCourse}
+                                    updateCourse={updateCourse} />
+                            } />
+                            <Route path="Courses/:cid/*" element={<Courses courses={courses} />} />
+                            <Route path="/" element={<Navigate to="Dashboard" />} />       
+                            <Route path="Account" element={<h1>Account</h1>} />
+                            <Route path="Calendar" element={<h1>Calendar</h1>} />
+                            <Route path="Inbox" element={<h1>Inbox</h1>} />
+                            <Route path="Courses/:cid/Assignments/:aid" element={<AssignmentEditor />} />
+                            <Route path="Assignments" element={<Assignments/>}/>
 
-                    </Routes>
+                        </Routes>
+                    </div>
                 </div>
-            </div>
-        </div >
+            </div >
+        </Provider>
     );
 }     

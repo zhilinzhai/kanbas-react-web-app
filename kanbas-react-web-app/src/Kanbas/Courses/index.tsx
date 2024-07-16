@@ -2,10 +2,10 @@ import CoursesNavigation from "./Navigation";
 import { Navigate, Route, Routes, useParams, useLocation  } from "react-router";
 import Modules from "./Modules";
 import Home from "./Home";
-import Assignment from "./Assignment";
 import Grade from "./Grade";
 import AssignmentEditor from "./Assignment/Editor";
 import { FaAlignJustify } from "react-icons/fa";
+import Assignments from "./Assignment";
 // import { courses } from "../Database";
 
 
@@ -32,10 +32,9 @@ export default function Courses({ courses }: { courses: any[]; }) {
                         <Route path="Home" element={<Home />} />
                         <Route path="Modules" element={<Modules />} />
                         <Route path="Assignments"
-                            element={<Assignment />} />
+                            element={<Assignments />} />
                         <Route path="Assignments/:id"
                             element={<AssignmentEditor />} />
-                        <Route path="Assignments/:id" element={<AssignmentEditor />} />
                         <Route path="Grades" element={<Grade />} /> 
                     </Routes>
                 </div>
