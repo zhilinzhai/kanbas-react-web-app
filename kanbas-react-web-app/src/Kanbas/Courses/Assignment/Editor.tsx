@@ -5,13 +5,21 @@ import * as db from "../../Database";
 import React from 'react';
 import { assign } from 'lodash';
 import { ASSIGNMENT_OPERATORS } from '@babel/types';
+import { Assignment } from './AssignmentType';
+import {
+  addAssignment,
+  updateAssignment,
+} from "./reducer";
+
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   //const assignments = db.assignments;
-  // const assignments = db.assignments.filter((assignment) => assignment.course === cid && assignment._id === aid);
-  const assignments = db.assignments.filter((assignment) => assignment.course === cid && assignment._id === aid);
- 
+  //const assignments = db.assignments.filter((assignment) => assignment.course === cid && assignment._id === aid);
+  const { assignments } = useSelector((state: any) => state.assignmentreducer);
+  
+  const filteredAssignment:Assignment[] = assignments.filter((assignment:Assignment) => assignment.course === cid && assignment._id === aid);
   console.log("assignments", assignments[0].course, cid, aid);
 
   return (
@@ -20,7 +28,7 @@ export default function AssignmentEditor() {
       <form>
         <div>
         </div>
-        {assignments.map((assignment) => (
+        {filteredAssignment.map((assignment) => (
           <div key={assignment._id}>
             <div className="mb-3 row">
               <label htmlFor={`assignmentName-${assignment._id}`} className="col-sm-2 col-form-label">Assignment Name</label>
@@ -34,7 +42,6 @@ export default function AssignmentEditor() {
                 />
               </div>
             </div>
-
             <div className="mb-3 row">
               <label htmlFor={`assignmentDescription-${assignment._id}`} className="col-sm-2 col-form-label">Description</label>
               <div className="col-sm-10">
@@ -150,7 +157,7 @@ export default function AssignmentEditor() {
                         />
                       </div>
                       <div>
-                      <p>{assignment.Due}</p>
+                        <p>{assignment.Due}</p>
                       </div>
 
                     </div>
@@ -164,7 +171,7 @@ export default function AssignmentEditor() {
                         />
                       </div>
                       <div>
-                      <p>{assignment.Availability}</p>
+                        <p>{assignment.Availability}</p>
                       </div>
                       <div className="col-md-6 mb-4">
                         <label className="form-label" htmlFor={`until-${assignment._id}`}>Until</label>
@@ -176,7 +183,7 @@ export default function AssignmentEditor() {
                         />
                       </div>
                       <div>
-                      <p>{assignment.Due}</p>
+                        <p>{assignment.Due}</p>
                       </div>
                     </div>
                   </div>
@@ -203,9 +210,6 @@ export default function AssignmentEditor() {
     </div>
   );
 }
-
-
-
 
 
 

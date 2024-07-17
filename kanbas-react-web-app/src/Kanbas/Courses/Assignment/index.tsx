@@ -1,11 +1,19 @@
 import "./index.css";
-import { FaPlus, FaSearch, FaFolderPlus } from "react-icons/fa";
+import { FaPlus, FaSearch, FaFolderPlus,FaPen, } from "react-icons/fa";
 import LessonControlButtons from "./LessonControlButton(Ass)";
 import NotebookIcon from "./Notebookicon";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams } from "react-router";
 import * as db from "../../Database";
-
+import GreenCheckmark from "./GreenCheckmark(Ass)";
+import { FaTrashCan } from "react-icons/fa6";
+import {
+  deleteAssignment,
+} from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+// import { Assignment } from "./AssignmentType";
+import React from 'react';
 
 export default function Assignment() {
   const { cid } = useParams();
@@ -49,31 +57,65 @@ export default function Assignment() {
 }
 
 
-
-// export default function Assignment() {
+// export default function AssignmentComponent() {
+//   db.assignments,
+//   deleteAssignment,
+// }: {
+//   assignments: Assignment[];
+//   deleteAssignment: Function;
+// }) {
+ 
 //   const { cid } = useParams();
-//   const assignments = db.assignments.filter((assignment) => assignment.course === cid);
-
+//   const {assignments} = useSelector((state: any) => state.assignmentreducer);
+//   const dispatch = useDispatch();
+//   const filteredassignments: Assignment[] = assignments.filter((assignment:any) => assignment.course === cid);
 //   return (
 //     <ul id="wd-assignments" className="list-group rounded-0">
+
 //       {/* <li className="wd-assignments list-group-item p-0 mb-5 fs-5"> */}
-//         <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center bg-third">
-//           <div>
-//             <BsGripVertical className="me-2 fs-3" />
-//             ASSIGNMENTS
-//           </div>
-//           <div className="elliptical-button">
+//       <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center bg-third">
+//         <div>
+//           <BsGripVertical className="me-2 fs-3" />
+//           ASSIGNMENTS
+//         </div>
+//         <div>
+//           <div className="elliptical-button me-2">
 //             40% of total
 //           </div>
+//           <button id="wd-add-assignment" className="btn btn-danger" onClick={
+//             () => {
+//               window.location.href = window.location.href + "/new";
+//             }
+//           }>
+//             Create Assignment <FaPlus />
+//           </button>
 //         </div>
+//       </div>
+
 //       {/* </li> */}
-//       {assignments.map((assignment) => (
+//       {filteredassignments.map((assignment) => (
 //         <li key={assignment._id} className="wd-assignment-list-item list-group-item p-3 ps-1">
 //           <BsGripVertical className="me-2 fs-3" />
 //           <NotebookIcon />
-//           <a className="wd-assignment-link" href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+//           <a className="wd-assignment-link" href={`#/Kanbas/Courses/${cid}/Assignment/${assignment._id}`}>
 //             {assignment.title}
-//             <LessonControlButtons />
+//             <div className="float-end">
+//             <FaPen
+//               className="text-primary me-4"
+//               style={{ cursor: "pointer" }}
+//               onClick={()=>
+//                 window.location.href = window.location.href + "/"+ assignment._id
+//               }
+//             />
+//             <FaTrashCan
+//               className="text-danger me-4"
+//               style={{ cursor: "pointer" }}
+//               onClick={() => {
+//                 dispatch(deleteAssignment(assignment._id));
+//               }}
+//             />
+//               <GreenCheckmark />
+//             </div>
 //           </a>
 //           <div className="row-1">
 //             <div className="ms-5 text-red">
@@ -90,7 +132,6 @@ export default function Assignment() {
 //     </ul>
 //   );
 // }
-
 
 // import "./index.css";
 // import { FaPlus, FaSearch, FaFolderPlus } from "react-icons/fa";
@@ -98,13 +139,22 @@ export default function Assignment() {
 // import NotebookIcon from "./Notebookicon";
 // import { BsGripVertical } from "react-icons/bs";
 // import { useParams } from "react-router";
+// import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
 // import * as db from "../../Database";
+// import { addAssignment, updateAssignment, deleteAssignment }
+//   from "./reducer";
 
 // export default function Assignment() {
-//   const { cid } = useParams();
+//   const paramcid = useParams();
+//   const cid = paramcid.id;
+//   const [assignmentName, setAssignmentName] = useState("");
+//   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 //   const assignments = db.assignments.filter((assignment) => assignment.course === cid);
+//   const dispatch = useDispatch();
 
 //   return (
+
 //     <ul id="wd-assignments" className="list-group rounded-0">
 //       {/* <li className="wd-assignments list-group-item p-0 mb-5 fs-5"> */}
 //         <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center bg-third">
@@ -140,43 +190,6 @@ export default function Assignment() {
 //     </ul>
 //   );
 // }
-
-// import React from "react";
-// import { useSelector, useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
-// import { deleteAssignment } from "./reducer";
-// import { FaTrash } from "react-icons/fa";
-
-// export default function Assignments() {
-//   const { assignments } = useSelector((state: any) => state.assignments);
-//   const dispatch = useDispatch();
-//   const history = useHistory();
-
-//   const handleDelete = (assignmentId: string) => {
-//     if (window.confirm("Are you sure you want to remove the assignment?")) {
-//       dispatch(deleteAssignment(assignmentId));
-//     }
-//   };
-
-//   return (
-//     <div className="assignments">
-//       <button onClick={() => history.push("/Kanbas/Courses/Assignments/Editor")} className="btn btn-primary">
-//         + Assignment
-//       </button>
-//       <ul className="list-group rounded-0">
-//         {assignments.map((assignment: any) => (
-//           <li key={assignment._id} className="list-group-item d-flex justify-content-between align-items-center">
-//             <span onClick={() => history.push(`/Kanbas/Courses/Assignments/Editor/${assignment._id}`)}>
-//               {assignment.name}
-//             </span>
-//             <FaTrash onClick={() => handleDelete(assignment._id)} className="text-danger" />
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
 
 
 
