@@ -1,202 +1,348 @@
-import { FaFolderPlus, FaPlus, FaSave, FaTimes } from 'react-icons/fa';
-import './index.css';
+import { FaFolderPlus, FaPlus, FaSave, FaTimes } from "react-icons/fa";
+import "./index.css";
 import { useParams } from "react-router";
 import * as db from "../../Database";
-import React from 'react';
-import { assign } from 'lodash';
-import { ASSIGNMENT_OPERATORS } from '@babel/types';
-import { Assignment } from './AssignmentType';
-import {
-  addAssignment,
-  updateAssignment,
-} from "./reducer";
+import React, { useState } from "react";
+import { assign } from "lodash";
+import { ASSIGNMENT_OPERATORS } from "@babel/types";
+import { Assignment } from "./AssignmentType";
+import { addAssignment, updateAssignment } from "./reducer";
 
 import { useDispatch, useSelector } from "react-redux";
 
 export default function AssignmentEditor() {
-  const { cid, aid } = useParams();
-  //const assignments = db.assignments;
-  //const assignments = db.assignments.filter((assignment) => assignment.course === cid && assignment._id === aid);
-  const { assignments } = useSelector((state: any) => state.assignmentreducer);
-  
-  const filteredAssignment:Assignment[] = assignments.filter((assignment:Assignment) => assignment.course === cid && assignment._id === aid);
-  console.log("assignments", assignments[0].course, cid, aid);
+  const { cid, id } = useParams();
+  const dispatch = useDispatch();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+
+  // const filteredAssignment:Assignment[] = assignments.filter((assignment:Assignment) => assignment.course === cid && assignment._id === id);
+  const [currentAssignment, setCurrentAssignment] = useState<Assignment | null>(
+    id === "new"
+      ? {
+          _id: "new",
+          title: "",
+          course: cid,
+          points: 0,
+          Availability: "",
+          description: "",
+          Due: "",
+        }
+      : assignments.find((a: Assignment) => a._id === id) || null
+  );
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setCurrentAssignment((prev) => ({
+      ...prev!,
+      [name]: value,
+    }));
+  };
+
+  if (!currentAssignment) {
+    return <div>Assignment not found</div>;
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (currentAssignment!._id === "new") {
+      dispatch(addAssignment(currentAssignment));
+    } else {
+      dispatch(updateAssignment(currentAssignment));
+    }
+    // window.location.href = `/#/Kanbas/Courses/${cid}/Assignments`;
+     window.history.back()
+  };
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Edit Assignment</h2>
-      <form>
-        <div>
-        </div>
-        {filteredAssignment.map((assignment) => (
-          <div key={assignment._id}>
-            <div className="mb-3 row">
-              <label htmlFor={`assignmentName-${assignment._id}`} className="col-sm-2 col-form-label">Assignment Name</label>
-              <div className="col-sm-10">
-                <input
-                  type="text"
-                  className="form-control"
-                  id={`assignmentName-${assignment._id}`}
-                  placeholder="Assignment Name"
-                  defaultValue={assignment.title}
-                />
-              </div>
-            </div>
-            <div className="mb-3 row">
-              <label htmlFor={`assignmentDescription-${assignment._id}`} className="col-sm-2 col-form-label">Description</label>
-              <div className="col-sm-10">
-                <textarea
-                  className="form-control"
-                  id={`assignmentDescription-${assignment._id}`}
-                  rows={6}
-                  defaultValue={assignment.description}
-                />
-              </div>
-            </div>
+      <h2 className="mb-4">
+        {currentAssignment._id === "new" ? "Create" : "Edit"} Assignment
+      </h2>
+      <form onSubmit={handleSubmit}>
+        <div></div>
 
-            <div className="row mb-3">
-              <div className="col-md-10 offset-md-2">
-                <div className="row mb-3">
-                  <label htmlFor="points" className="col-sm-4 col-form-label text-right">Points</label>
-                  <div className="col-sm-8">
-                    <input type="number" className="form-control" id="points" defaultValue="100" />
-                  </div>
+        <div key={currentAssignment._id}>
+          <div className="mb-3 row">
+            <label
+              htmlFor={`assignmentName-${currentAssignment._id}`}
+              className="col-sm-2 col-form-label"
+            >
+              Assignment Name
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id={`assignmentName-${currentAssignment._id}`}
+                placeholder="Assignment Name"
+                defaultValue={currentAssignment.title}
+                name="title"
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label
+              htmlFor={`assignmentDescription-${currentAssignment._id}`}
+              className="col-sm-2 col-form-label"
+            >
+              Description
+            </label>
+            <div className="col-sm-10">
+              <textarea
+                className="form-control"
+                id={`assignmentDescription-${currentAssignment._id}`}
+                rows={6}
+                name="description"
+                onChange={handleChange}
+                defaultValue={currentAssignment.description}
+              />
+            </div>
+          </div>
+
+          <div className="row mb-3">
+            <div className="col-md-10 offset-md-2">
+              <div className="row mb-3">
+                <label
+                  htmlFor="points"
+                  className="col-sm-4 col-form-label text-right"
+                >
+                  Points
+                </label>
+                <div className="col-sm-8">
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="points"
+                    defaultValue={currentAssignment.points}
+                    name="points"
+                    onChange={handleChange}
+                  />
                 </div>
-                <div className="row mb-3">
-                  <label htmlFor="assignmentGroup" className="col-sm-4 col-form-label text-right">Assignment Group</label>
-                  <div className="col-sm-8">
-                    <select className="form-control" id="assignmentGroup" defaultValue="ASSIGNMENTS">
-                      <option>ASSIGNMENTS 1</option>
-                      <option>ASSIGNMENTS 2</option>
-                      <option>ASSIGNMENTS 3</option>
-                    </select>
-                  </div>
+              </div>
+              <div className="row mb-3">
+                <label
+                  htmlFor="assignmentGroup"
+                  className="col-sm-4 col-form-label text-right"
+                >
+                  Assignment Group
+                </label>
+                <div className="col-sm-8">
+                  <select
+                    className="form-control"
+                    id="assignmentGroup"
+                    defaultValue="ASSIGNMENTS"
+                  >
+                    <option>ASSIGNMENTS 1</option>
+                    <option>ASSIGNMENTS 2</option>
+                    <option>ASSIGNMENTS 3</option>
+                  </select>
                 </div>
-                <div className="row mb-3">
-                  <label htmlFor="displayGradeAs" className="col-sm-4 col-form-label text-right">Display Grade as</label>
-                  <div className="col-sm-8">
-                    <select className="form-control" id="displayGradeAs" defaultValue="Percentage">
-                      <option>Percentage</option>
-                      <option>Letter grade</option>
-                      <option>Number</option>
-                    </select>
+              </div>
+              <div className="row mb-3">
+                <label
+                  htmlFor="displayGradeAs"
+                  className="col-sm-4 col-form-label text-right"
+                >
+                  Display Grade as
+                </label>
+                <div className="col-sm-8">
+                  <select
+                    className="form-control"
+                    id="displayGradeAs"
+                    defaultValue="Percentage"
+                  >
+                    <option>Percentage</option>
+                    <option>Letter grade</option>
+                    <option>Number</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* submissionType */}
+          <div className="mb-3 row offset-md-2">
+            <label htmlFor="submissionType" className="col-sm-2 col-form-label">
+              Submission Type
+            </label>
+            <div className="col-sm-10">
+              <div className="card">
+                <div className="card-body">
+                  <select
+                    className="form-select mb-3"
+                    id="submissionType"
+                    defaultValue="Online"
+                  >
+                    <option>Online</option>
+                    <option>In Person</option>
+                  </select>
+                  <label className="col-form-label">Online Entry Options</label>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value="textEntry"
+                      id="textEntry"
+                    />
+                    <label className="form-check-label" htmlFor="textEntry">
+                      Text Entry
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value="websiteURL"
+                      id="websiteURL"
+                      defaultChecked
+                    />
+                    <label className="form-check-label" htmlFor="websiteURL">
+                      Website URL
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value="mediaRecordings"
+                      id="mediaRecordings"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="mediaRecordings"
+                    >
+                      Media Recordings
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value="studentAnnotation"
+                      id="studentAnnotation"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="studentAnnotation"
+                    >
+                      Student Annotation
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value="fileUploads"
+                      id="fileUploads"
+                    />
+                    <label className="form-check-label" htmlFor="fileUploads">
+                      File Uploads
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* submissionType */}
-            <div className="mb-3 row offset-md-2">
-              <label htmlFor="submissionType" className="col-sm-2 col-form-label">Submission Type</label>
-              <div className="col-sm-10">
-                <div className="card">
-                  <div className="card-body">
-                    <select className="form-select mb-3" id="submissionType" defaultValue="Online">
-                      <option>Online</option>
-                      <option>In Person</option>
-                    </select>
-                    <label className="col-form-label">Online Entry Options</label>
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="textEntry" id="textEntry" />
-                      <label className="form-check-label" htmlFor="textEntry">
-                        Text Entry
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="websiteURL" id="websiteURL" defaultChecked />
-                      <label className="form-check-label" htmlFor="websiteURL">
-                        Website URL
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="mediaRecordings" id="mediaRecordings" />
-                      <label className="form-check-label" htmlFor="mediaRecordings">
-                        Media Recordings
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="studentAnnotation" id="studentAnnotation" />
-                      <label className="form-check-label" htmlFor="studentAnnotation">
-                        Student Annotation
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="fileUploads" id="fileUploads" />
-                      <label className="form-check-label" htmlFor="fileUploads">
-                        File Uploads
-                      </label>
-                    </div>
+          {/* Assign */}
+          <div className="mb-3 row offset-md-2">
+            <label
+              htmlFor={`assign-${currentAssignment._id}`}
+              className="col-sm-2 col-form-label"
+            >
+              Assign
+            </label>
+            <div className="col-sm-10">
+              <div className="card">
+                <div className="card-body">
+                  <div className="mb-3">
+                    <label
+                      className="form-label"
+                      htmlFor={`assignTo-${currentAssignment._id}`}
+                    >
+                      Assign to
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id={`assignTo-${currentAssignment._id}`}
+                      defaultValue="Everyone"
+                    />
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Assign */}
-            <div className="mb-3 row offset-md-2">
-              <label htmlFor={`assign-${assignment._id}`} className="col-sm-2 col-form-label">Assign</label>
-              <div className="col-sm-10">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="mb-3">
-                      <label className="form-label" htmlFor={`assignTo-${assignment._id}`}>Assign to</label>
+                  <div className="row mb-3">
+                    <div className="col-md-12">
+                      <label
+                        className="form-label"
+                        htmlFor={`dueDate-${currentAssignment._id}`}
+                      >
+                        Due
+                      </label>
                       <input
-                        type="text"
+                        type="datetime-local"
                         className="form-control"
-                        id={`assignTo-${assignment._id}`}
-                        defaultValue="Everyone"
+                        id={`dueDate-${currentAssignment._id}`}
+                        defaultValue={currentAssignment.Due}
+                        name="Due"
+                        onChange={handleChange}
                       />
                     </div>
-                    <div className="row mb-3">
-                      <div className="col-md-12">
-                        <label className="form-label" htmlFor={`dueDate-${assignment._id}`}>Due</label>
-                        <input
-                          type="datetime-local"
-                          className="form-control"
-                          id={`dueDate-${assignment._id}`}
-                          defaultValue={assignment.Due}
-                        />
-                      </div>
-                      <div>
-                        <p>{assignment.Due}</p>
-                      </div>
-
+                    <div>
+                      <p>{currentAssignment.Due}</p>
                     </div>
-                    <div className="row mb-4">
-                      <div className="col-md-6 mb-4">
-                        <label className="form-label" htmlFor={`availableFrom-${assignment._id}`}>Available from</label>
-                        <input
-                          type="datetime-local"
-                          className="form-control"
-                          defaultValue={assignment.Availability}
-                        />
-                      </div>
-                      <div>
-                        <p>{assignment.Availability}</p>
-                      </div>
-                      <div className="col-md-6 mb-4">
-                        <label className="form-label" htmlFor={`until-${assignment._id}`}>Until</label>
-                        <input
-                          type="datetime-local"
-                          className="form-control"
-                          id={`until-${assignment._id}`}
-                          defaultValue={assignment.Due}
-                        />
-                      </div>
-                      <div>
-                        <p>{assignment.Due}</p>
-                      </div>
+                  </div>
+                  <div className="row mb-4">
+                    <div className="col-md-6 mb-4">
+                      <label
+                        className="form-label"
+                        htmlFor={`availableFrom-${currentAssignment._id}`}
+                      >
+                        Available from
+                      </label>
+                      <input
+                        type="datetime-local"
+                        className="form-control"
+                        defaultValue={currentAssignment.Availability}
+                        name="Availability"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <p>{currentAssignment.Availability}</p>
+                    </div>
+                    <div className="col-md-6 mb-4">
+                      <label
+                        className="form-label"
+                        htmlFor={`until-${currentAssignment._id}`}
+                      >
+                        Until
+                      </label>
+                      <input
+                        type="datetime-local"
+                        className="form-control"
+                        id={`until-${currentAssignment._id}`}
+                        defaultValue={currentAssignment.Due}
+                      />
+                    </div>
+                    <div>
+                      <p>{currentAssignment.Due}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        ))}
+        </div>
 
         {/* Button */}
         <div className="d-flex justify-content-end mb-2">
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-secondary">
+            <button type="button" className="btn btn-secondary" onClick={() => window.location.href = `#/Kanbas/Courses/${cid}/Assignments`}>
               <FaTimes className="me-2" />
               Cancel
             </button>
@@ -210,9 +356,6 @@ export default function AssignmentEditor() {
     </div>
   );
 }
-
-
-
 
 // export default function AssignmentEditor() {
 //   return (
@@ -339,8 +482,11 @@ export default function AssignmentEditor() {
 //           </div>
 //         </div>
 
-{/*Assign */ }
-{/* <div className="mb-3 row offset-md-2">
+{
+  /*Assign */
+}
+{
+  /* <div className="mb-3 row offset-md-2">
 <label htmlFor="Assign" className="col-sm-2 col-form-label">Assign</label>
 <div className="col-sm-10">
   <div className="card">
@@ -368,9 +514,11 @@ export default function AssignmentEditor() {
     </div>
   </div>
 </div>
-</div> */}
+</div> */
+}
 
-{/* <div className="mb-3 row offset-md-2">
+{
+  /* <div className="mb-3 row offset-md-2">
             <label htmlFor="Assign" className="col-sm-2 col-form-label">Assign</label>
             {assignments.map((assignment) => (
             <div key={assignment._id} >
@@ -403,8 +551,8 @@ export default function AssignmentEditor() {
           </div>
           ))}
         </div>
-         */}
-
+         */
+}
 
 //         {/* Button */}
 //         <div className="d-flex justify-content-end mb-2">
@@ -423,7 +571,6 @@ export default function AssignmentEditor() {
 //     </div>
 //   );
 // }
-
 
 // import { FaFolderPlus, FaPlus, FaSave, FaTimes } from 'react-icons/fa';
 // import './index.css';
@@ -623,4 +770,3 @@ export default function AssignmentEditor() {
 //     </div>
 //   );
 // }
-
