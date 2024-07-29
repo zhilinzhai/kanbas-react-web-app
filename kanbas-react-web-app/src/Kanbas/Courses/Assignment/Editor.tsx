@@ -54,8 +54,8 @@ export default function AssignmentEditor() {
     } else {
       dispatch(updateAssignment(currentAssignment));
     }
-    // window.location.href = `/#/Kanbas/Courses/${cid}/Assignments`;
-     window.history.back()
+     window.location.href = `/#/Kanbas/Courses/${cid}/Assignments`;
+     //window.history.back()
   };
 
   return (
