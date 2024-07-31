@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { assign } from "lodash";
 import { ASSIGNMENT_OPERATORS } from "@babel/types";
 import { Assignment } from "./AssignmentType";
+
+import * as client from "./client";
 import { addAssignment, updateAssignment } from "./reducer";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +17,7 @@ export default function AssignmentEditor() {
   const dispatch = useDispatch();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
-  // const filteredAssignment:Assignment[] = assignments.filter((assignment:Assignment) => assignment.course === cid && assignment._id === id);
+  const filteredAssignment:Assignment[] = assignments.filter((assignment:Assignment) => assignment.course === cid && assignment._id === id);
   const [currentAssignment, setCurrentAssignment] = useState<Assignment | null>(
     id === "new"
       ? {
@@ -46,14 +48,20 @@ export default function AssignmentEditor() {
     return <div>Assignment not found</div>;
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (currentAssignment!._id === "new") {
-      dispatch(addAssignment(currentAssignment));
-    } else {
-      dispatch(updateAssignment(currentAssignment));
+    try{
+      if (currentAssignment!._id === "new") {
+        //await client.addAssignment(currentAssignment)
+        dispatch(addAssignment(currentAssignment));
+      } else {
+        //await client.updateAssignment(currentAssignment)
+        dispatch(updateAssignment(currentAssignment));
+      }
+    }catch (error){
+      
     }
+
      window.location.href = `/#/Kanbas/Courses/${cid}/Assignments`;
      //window.history.back()
   };
