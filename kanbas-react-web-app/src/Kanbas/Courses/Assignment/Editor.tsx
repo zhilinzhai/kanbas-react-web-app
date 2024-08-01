@@ -52,10 +52,10 @@ export default function AssignmentEditor() {
     e.preventDefault();
     try{
       if (currentAssignment!._id === "new") {
-        //await client.addAssignment(currentAssignment)
+        await client.createAssignment (currentAssignment.course,currentAssignment);
         dispatch(addAssignment(currentAssignment));
       } else {
-        //await client.updateAssignment(currentAssignment)
+        await client.updateAssignment(currentAssignment);
         dispatch(updateAssignment(currentAssignment));
       }
     }catch (error){

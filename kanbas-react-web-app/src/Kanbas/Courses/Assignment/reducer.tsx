@@ -25,6 +25,7 @@ const assignmentSlice = createSlice({
 
     // set module
     setAssignment: (state, action) => {
+      console.log(action.payload,"HELLO world");
       state.assignments = action.payload;
     },
 
