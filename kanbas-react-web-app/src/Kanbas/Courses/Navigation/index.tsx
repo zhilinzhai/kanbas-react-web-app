@@ -1,7 +1,7 @@
 import "./index.css";
 import {useLocation } from "react-router";
 export default function CoursesNavigation({cid}:{cid:string}) {
-   const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades"];
+   const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
    const {pathname} = useLocation();
    const currentLocation = pathname.split("/")[4];
  

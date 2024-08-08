@@ -10,6 +10,7 @@ import Assignments from "./Assignment";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, deleteAssignment, updateAssignment } from "./Assignment/reducer";
 import { courses } from "../Database";
+import PeopleTable from "./People/Table";
 
 // export default function Courses({ courses }: { courses: any[]; }) {
 //     const { assignments } = useSelector((state: any) => state.assignmentreducer);
@@ -99,7 +100,9 @@ export default function Courses({ courses }: { courses: any[]; }) {
                             element={<Assignments />} />
                         <Route path="Assignments/:id"
                             element={<AssignmentEditor />} />
-                        <Route path="Grades" element={<Grade />} /> 
+                        <Route path="Grades" element={<Grade />} />
+                        <Route path="People/:uid" element={<PeopleTable />} /> 
+                        <Route path = "People" element ={<PeopleTable/>}/>
                     </Routes>
                 </div>
             </div>
